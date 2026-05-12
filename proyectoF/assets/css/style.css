@@ -1,0 +1,120 @@
+/* Paleta de colores exacta de DoneTonic Oscuro */
+:root {
+    --bg-main: #202124;        
+    --bg-sidebar: #282a2d;     
+    --bg-panel: #2f3136;       
+    --border-color: #3c4043;   
+    --text-main: #e8eaed;      
+    --text-muted: #d5c8c8;     
+    --btn-blue: #3b82f6;       
+    
+    /* Colores superiores de las columnas */
+    --col-pendiente: #8c52ff;
+    --col-encurso: #ff914d;
+    --col-bloqueado: #ff5757;
+    --col-hecho: #00bf63;
+}
+
+body {
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    height: 100vh;
+    overflow: hidden;
+    margin: 0;
+}
+
+/* --- SIDEBAR E INTERFAZ --- */
+.sidebar {
+    background-color: var(--bg-sidebar);
+    border-right: 1px solid var(--border-color);
+    width: 260px;
+    min-width: 260px;
+}
+.sidebar .nav-link {
+    color: var(--text-main);
+    padding: 8px 16px;
+    font-size: 0.9rem;
+    border-radius: 4px;
+    margin-bottom: 2px;
+}
+.sidebar .nav-link:hover, .sidebar .nav-link.active {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+.top-header {
+    background-color: var(--bg-sidebar);
+    border-bottom: 1px solid var(--border-color);
+    padding: 12px 20px;
+}
+
+/* --- ESTRUCTURA KANBAN SIMPLE --- */
+.kanban-board {
+    height: calc(100vh - 80px);
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+
+.kanban-column {
+    width: 300px;
+    min-width: 300px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+/* Área donde caen las tarjetas */
+.column-body {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding-bottom: 20px;
+    padding-top: 5px;
+}
+
+/* Cabeceras de Columnas */
+.col-header-box {
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-sidebar);
+    border-radius: 6px;
+    padding: 10px 12px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.border-top-pendiente { border-top: 3px solid var(--col-pendiente); }
+.border-top-encurso { border-top: 3px solid var(--col-encurso); }
+.border-top-bloqueado { border-top: 3px solid var(--col-bloqueado); }
+.border-top-hecho { border-top: 3px solid var(--col-hecho); }
+
+/* --- TARJETAS --- */
+.dt-card {
+    background-color: var(--bg-panel);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 12px;
+    margin-bottom: 12px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+    cursor: grab;
+}
+.dt-card:hover {
+    border-color: #5f6368;
+}
+.color-square {
+    width: 12px;
+    height: 12px;
+    background-color: #a020f0; 
+    border-radius: 2px;
+    display: inline-block;
+}
+.tag-blue {
+    background-color: #1a73e8;
+    color: white;
+    font-size: 0.7rem;
+    padding: 2px 8px;
+    border-radius: 10px;
+}
+.cursor-pointer {
+    cursor: pointer;
+}

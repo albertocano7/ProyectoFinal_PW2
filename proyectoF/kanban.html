@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tablero KANBAN - P WEB 2</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <style>
+        /* Ocultar página hasta verificar sesión */
+        body { visibility: hidden; }
+    </style>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<div class="container-fluid p-0 d-flex h-100">
+
+    <!-- Sidebar -->
+    <div class="sidebar" id="main-sidebar">
+        <div class="p-3 border-bottom border-secondary">
+            <div class="d-flex align-items-center mb-4">
+                <span class="material-symbols-outlined fs-3 me-2">task_alt</span>
+                <span class="fw-bold fs-5">Nombre de la app</span>
+            </div>
+
+            <ul class="nav flex-column mb-4" id="menu-principal">
+                <li><a href="#" class="nav-link d-flex align-items-center"><span class="material-symbols-outlined me-2 fs-5">home</span> Inicio</a></li>
+                <li><a href="#" class="nav-link d-flex align-items-center"><span class="material-symbols-outlined me-2 fs-5">add</span> Añadir espacio de trabajo</a></li>
+            </ul>
+
+            <div class="text-light small fw-bold mb-2 ms-2">Proyecto de PW2</div>
+
+            <ul class="nav flex-column" id="menu-proyectos">
+                <li><a href="#" class="nav-link d-flex align-items-center"><span class="material-symbols-outlined me-2 fs-5 text-primary">space_dashboard</span> FES ARAGÓN 1</a></li>
+                <li><a href="#" class="nav-link active d-flex align-items-center text-primary bg-dark"><span class="material-symbols-outlined me-2 fs-5">view_kanban</span> P WEB 2</a></li>
+                <li><a href="#" class="nav-link d-flex align-items-center"><span class="material-symbols-outlined me-2 fs-5">settings</span> Configuración</a></li>
+            </ul>
+        </div>
+
+        <!-- Usuario activo + cerrar sesión -->
+        <div class="p-3 border-top border-secondary mt-auto">
+            <div class="d-flex align-items-center gap-2 mb-2">
+                <div class="rounded-circle bg-primary d-flex align-items-center justify-content-center text-white fw-bold"
+                     style="width:34px;height:34px;font-size:0.8rem;flex-shrink:0;" id="avatar-iniciales">
+                </div>
+                <div style="min-width:0;">
+                    <div class="text-white small fw-bold text-truncate" id="sidebar-nombre"></div>
+                    <div class="text-muted" style="font-size:0.72rem;" id="sidebar-correo"></div>
+                </div>
+            </div>
+            <button class="btn btn-outline-danger btn-sm w-100 d-flex align-items-center justify-content-center gap-1"
+                    onclick="cerrarSesion()">
+                <span class="material-symbols-outlined" style="font-size:16px;">logout</span>
+                Cerrar sesión
+            </button>
+        </div>
+    </div>
+
+    <!-- Contenido principal -->
+    <div class="flex-grow-1 d-flex flex-column" style="min-width: 0;">
+
+        <!-- Header -->
+        <header class="top-header d-flex justify-content-between align-items-center" id="top-navbar">
+            <div class="d-flex align-items-center">
+                <div class="bg-primary rounded p-2 me-3 d-flex">
+                    <span class="material-symbols-outlined text-white">view_kanban</span>
+                </div>
+                <div>
+                    <div class="text-muted small">Proyecto de programa... > FES ARAGÓN 1</div>
+                    <div class="d-flex align-items-center gap-3">
+                        <h5 class="m-0 fw-bold">P WEB 2</h5>
+                        <span class="material-symbols-outlined text-muted fs-6">info</span>
+                        <div class="border border-danger rounded-pill px-2" style="font-size: 0.7rem; color: #ff5757;">0%</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="d-flex align-items-center gap-2">
+                <span class="text-muted small me-2">Hola, <strong id="header-nombre"></strong></span>
+                <button class="btn btn-outline-primary btn-sm d-flex align-items-center" id="btn-invitar">
+                    <span class="material-symbols-outlined fs-6 me-1">person_add</span> Invitar
+                </button>
+                <button class="btn btn-primary btn-sm d-flex align-items-center" id="btn-add-tarea">
+                    <span class="material-symbols-outlined fs-6 me-1">add</span> Tarea
+                </button>
+                <button class="btn btn-outline-secondary text-white btn-sm d-flex align-items-center" id="btn-add-estado">
+                    <span class="material-symbols-outlined fs-6 me-1">add</span> Estado
+                </button>
+            </div>
+        </header>
+
+        <!-- Tablero Kanban -->
+        <div class="kanban-board d-flex p-3 gap-3" id="tablero-principal">
+
+            <div class="kanban-column" id="col-pendiente">
+                <div class="col-header-box border-top-pendiente">
+                    <span>PENDIENTE <span class="text-muted ms-1" id="count-pendiente">1</span></span>
+                    <span class="material-symbols-outlined fs-6 text-muted cursor-pointer">more_vert</span>
+                </div>
+                <div class="column-body" id="dropzone-pendiente">
+                    <div class="dt-card" id="tarea-1" draggable="true">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                            <div>
+                                <span class="text-primary small fw-bold">#T1</span>
+                                <span class="small">github</span>
+                            </div>
+                            <span class="material-symbols-outlined fs-6 text-muted">sort</span>
+                        </div>
+                        <div class="d-flex align-items-center gap-2 mb-2">
+                            <span class="color-square"></span>
+                            <span class="text-danger fw-bold">!</span>
+                            <span class="small text-muted">15 Abril</span>
+                            <span class="material-symbols-outlined fs-6 text-muted">person</span>
+                        </div>
+                        <span class="tag-blue">programación</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="kanban-column" id="col-encurso">
+                <div class="col-header-box border-top-encurso">
+                    <span>EN CURSO <span class="text-muted ms-1" id="count-encurso">0</span></span>
+                    <span class="material-symbols-outlined fs-6 text-muted cursor-pointer">more_vert</span>
+                </div>
+                <div class="column-body" id="dropzone-encurso"></div>
+            </div>
+
+            <div class="kanban-column" id="col-bloqueado">
+                <div class="col-header-box border-top-bloqueado">
+                    <span>BLOQUEADO <span class="text-muted ms-1" id="count-bloqueado">0</span></span>
+                    <span class="material-symbols-outlined fs-6 text-muted cursor-pointer">more_vert</span>
+                </div>
+                <div class="column-body" id="dropzone-bloqueado"></div>
+            </div>
+
+            <div class="kanban-column" id="col-hecho">
+                <div class="col-header-box border-top-hecho">
+                    <span>HECHO <span class="text-muted ms-1" id="count-hecho">0</span></span>
+                    <span class="material-symbols-outlined fs-6 text-muted cursor-pointer">more_vert</span>
+                </div>
+                <div class="column-body" id="dropzone-hecho"></div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+// ══════════════════════════════════════════════════════
+//  PROTECCIÓN DE RUTA
+//  Si no hay sesión activa, redirige al login
+// ══════════════════════════════════════════════════════
+const sesion = JSON.parse(localStorage.getItem('sesion') || 'null');
+
+if (!sesion) {
+    // Sin sesión → volver al inicio
+    window.location.href = 'app.html';
+} else {
+    // Hay sesión → mostrar la página
+    document.body.style.visibility = 'visible';
+    cargarDatosUsuario();
+}
+
+// ══════════════════════════════════════════════════════
+//  CARGAR DATOS DEL USUARIO EN LA UI
+// ══════════════════════════════════════════════════════
+function cargarDatosUsuario() {
+    const nombre    = `${sesion.nombres} ${sesion.apellidoP}`;
+    const iniciales = (sesion.nombres[0] + sesion.apellidoP[0]).toUpperCase();
+
+    // Header: saludo
+    document.getElementById('header-nombre').textContent = nombre;
+
+    // Sidebar: nombre, correo e iniciales del avatar
+    document.getElementById('sidebar-nombre').textContent   = nombre;
+    document.getElementById('sidebar-correo').textContent   = sesion.correo;
+    document.getElementById('avatar-iniciales').textContent = iniciales;
+}
+
+// ══════════════════════════════════════════════════════
+//  CERRAR SESIÓN
+// ══════════════════════════════════════════════════════
+function cerrarSesion() {
+    localStorage.removeItem('sesion');
+    window.location.href = 'app.html';
+}
+</script>
+
+</body>
+</html>

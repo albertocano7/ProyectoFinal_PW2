@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mi Aplicación</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=Fraunces:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --accent: #2D6A4F;
+      --accent-light: #B7E4C7;
+      --surface: #F8F6F1;
+      --text: #1A1A18;
+      --muted: #6B6B67;
+      --border: #E0DDD5;
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--surface);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* ── Navbar ── */
+    .navbar {
+      background: #fff;
+      border-bottom: 1px solid var(--border);
+      padding: 0.75rem 2rem;
+    }
+    .navbar-brand {
+      font-family: 'Fraunces', serif;
+      font-size: 1.4rem;
+      color: var(--accent) !important;
+      letter-spacing: -0.5px;
+    }
+    .btn-nav {
+      font-size: 0.85rem;
+      font-weight: 500;
+      padding: 0.45rem 1.1rem;
+      border-radius: 6px;
+      border: 1.5px solid var(--border);
+      background: transparent;
+      color: var(--text);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .btn-nav:hover { border-color: var(--accent); color: var(--accent); }
+    .btn-nav.primary {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+    .btn-nav.primary:hover { background: #235840; }
+
+    /* ── Hero ── */
+    .hero {
+      padding: 5rem 2rem 4rem;
+      max-width: 720px;
+      margin: 0 auto;
+    }
+    .hero h1 {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(2.2rem, 5vw, 3.4rem);
+      line-height: 1.15;
+      letter-spacing: -1px;
+      margin-bottom: 1.2rem;
+    }
+    .hero h1 em {
+      font-style: italic;
+      color: var(--accent);
+    }
+    .hero p {
+      color: var(--muted);
+      font-size: 1.05rem;
+      line-height: 1.7;
+      max-width: 520px;
+    }
+    .hero-img {
+      width: 100%;
+      max-width: 420px;
+      aspect-ratio: 4/3;
+      background: var(--accent-light);
+      border-radius: 16px;
+      margin: 2.5rem auto 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent);
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+    }
+
+    /* ── Panel usuario ── */
+    #panel-usuario {
+      display: none;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-top: 2rem;
+      max-width: 480px;
+    }
+    #panel-usuario h5 {
+      font-family: 'Fraunces', serif;
+      margin-bottom: 0.25rem;
+    }
+    #panel-usuario p { color: var(--muted); font-size: 0.9rem; margin: 0; }
+
+    /* ── Footer ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem;
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    /* ── Modales ── */
+    .modal-content {
+      border: none;
+      border-radius: 16px;
+      padding: 2rem;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.12);
+    }
+    .modal-title-custom {
+      font-family: 'Fraunces', serif;
+      font-size: 1.6rem;
+      letter-spacing: -0.5px;
+      margin-bottom: 1.5rem;
+      color: var(--text);
+    }
+    .form-label {
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.3rem;
+    }
+    .form-control {
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      padding: 0.6rem 0.9rem;
+      font-size: 0.95rem;
+      background: var(--surface);
+      color: var(--text);
+      transition: border-color 0.15s;
+    }
+    .form-control:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(45,106,79,0.1);
+      background: #fff;
+    }
+    .form-control.is-invalid { border-color: #dc3545; }
+    .form-control.is-valid   { border-color: #198754; }
+    .alerta-modal {
+      font-size: 0.875rem;
+      border-radius: 8px;
+      padding: 0.65rem 0.9rem;
+    }
+    .btn-submit {
+      width: 100%;
+      padding: 0.7rem;
+      border-radius: 8px;
+      border: none;
+      background: var(--accent);
+      color: #fff;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 500;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: background 0.15s, transform 0.1s;
+    }
+    .btn-submit:hover  { background: #235840; }
+    .btn-submit:active { transform: scale(0.98); }
+    .divider-text {
+      font-size: 0.8rem;
+      color: var(--muted);
+      text-align: center;
+      margin: 1rem 0 0.5rem;
+    }
+    .link-modal {
+      color: var(--accent);
+      font-size: 0.85rem;
+      cursor: pointer;
+      text-decoration: underline;
+      background: none;
+      border: none;
+      padding: 0;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Navbar ── -->
+<nav class="navbar d-flex justify-content-between align-items-center">
+  <span class="navbar-brand">Aplicación</span>
+  <div id="nav-auth" class="d-flex gap-2">
+    <button class="btn-nav" data-bs-toggle="modal" data-bs-target="#loginModal">Iniciar sesión</button>
+    <button class="btn-nav primary" data-bs-toggle="modal" data-bs-target="#registerModal">Registrarse</button>
+  </div>
+  <div id="nav-user" class="d-flex align-items-center gap-3" style="display:none!important">
+    <span id="nav-nombre" style="font-size:0.9rem;font-weight:500;"></span>
+    <button class="btn-nav" onclick="cerrarSesion()">Cerrar sesión</button>
+  </div>
+</nav>
+
+<!-- ── Contenido ── -->
+<div class="hero">
+  <h1>Bienvenido a<br><em>tu aplicación</em></h1>
+  <p>Regístrate o inicia sesión para acceder a todas las funcionalidades. Tu información se guarda de forma local en este navegador.</p>
+
+  <!-- Panel usuario autenticado -->
+  <div id="panel-usuario">
+    <h5 id="panel-saludo">Hola, Usuario</h5>
+    <p id="panel-correo">correo@ejemplo.com</p>
+    <p style="margin-top:0.75rem;font-size:0.82rem;color:var(--muted)">Sesión activa — datos guardados localmente</p>
+  </div>
+
+  <div class="hero-img">imagen de ejemplo</div>
+</div>
+
+<!-- ── Footer ── -->
+<footer class="container">
+  <p class="mb-1">Acerca de nosotros</p>
+  <p class="mb-0">Contacto</p>
+</footer>
+
+<!-- ══════════════════════════════════════
+     Modal: Iniciar Sesión
+══════════════════════════════════════ -->
+<div class="modal fade" id="loginModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered" style="max-width:420px">
+    <div class="modal-content">
+
+      <p class="modal-title-custom">Iniciar sesión</p>
+
+      <div id="login-alerta" class="alert alert-danger alerta-modal d-none"></div>
+      <div id="login-ok"     class="alert alert-success alerta-modal d-none"></div>
+
+      <div class="mb-3">
+        <label class="form-label">Correo</label>
+        <input id="login-correo" type="email" class="form-control" placeholder="tu@correo.com">
+      </div>
+      <div class="mb-4">
+        <label class="form-label">Contraseña</label>
+        <input id="login-password" type="password" class="form-control" placeholder="••••••••">
+      </div>
+
+      <button class="btn-submit" onclick="iniciarSesion()">Entrar</button>
+
+      <p class="divider-text">¿No tienes cuenta?
+        <button class="link-modal" onclick="switchModal('loginModal','registerModal')">Regístrate aquí</button>
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     Modal: Registro
+══════════════════════════════════════ -->
+<div class="modal fade" id="registerModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered" style="max-width:460px">
+    <div class="modal-content">
+
+      <p class="modal-title-custom">Crear cuenta</p>
+
+      <div id="reg-alerta" class="alert alert-danger alerta-modal d-none"></div>
+
+      <div class="row g-2 mb-2">
+        <div class="col-12">
+          <label class="form-label">Nombre(s)</label>
+          <input id="reg-nombres" type="text" class="form-control" placeholder="María">
+        </div>
+        <div class="col-12">
+          <label class="form-label">Apellido</label>
+          <input id="reg-apellido-p" type="text" class="form-control" placeholder="García">
+        </div>
+      </div>
+
+      <div class="mb-2">
+        <label class="form-label">Correo</label>
+        <input id="reg-correo" type="email" class="form-control" placeholder="tu@correo.com">
+      </div>
+      <div class="mb-2">
+        <label class="form-label">Contraseña <span style="color:var(--muted);font-size:0.75rem;text-transform:none;letter-spacing:0">(mín. 8 caracteres)</span></label>
+        <input id="reg-password" type="password" class="form-control" placeholder="••••••••">
+      </div>
+      <div class="mb-4">
+        <label class="form-label">Confirmar contraseña</label>
+        <input id="reg-confirm" type="password" class="form-control" placeholder="••••••••">
+      </div>
+
+      <button class="btn-submit" onclick="registrarUsuario()">Crear cuenta</button>
+
+      <p class="divider-text">¿Ya tienes cuenta?
+        <button class="link-modal" onclick="switchModal('registerModal','loginModal')">Inicia sesión</button>
+      </p>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+// ══════════════════════════════════════════════════════
+//  UTILIDADES
+// ══════════════════════════════════════════════════════
+
+/** Obtiene el array de usuarios guardados en localStorage */
+function getUsuarios() {
+  return JSON.parse(localStorage.getItem('usuarios') || '[]');
+}
+
+/** Guarda el array de usuarios en localStorage */
+function setUsuarios(arr) {
+  localStorage.setItem('usuarios', JSON.stringify(arr));
+}
+
+/** Guarda la sesión activa (nombre + correo) */
+function setSesion(usuario) {
+  localStorage.setItem('sesion', JSON.stringify(usuario));
+}
+
+/** Lee la sesión activa */
+function getSesion() {
+  return JSON.parse(localStorage.getItem('sesion') || 'null');
+}
+
+/** Elimina la sesión activa */
+function borrarSesion() {
+  localStorage.removeItem('sesion');
+}
+
+/** Cambia entre dos modales de Bootstrap */
+function switchModal(cerrar, abrir) {
+  bootstrap.Modal.getInstance(document.getElementById(cerrar))?.hide();
+  setTimeout(() => new bootstrap.Modal(document.getElementById(abrir)).show(), 300);
+}
+
+/** Muestra/oculta alerta dentro de un modal */
+function mostrarAlerta(id, msg, tipo = 'danger') {
+  const el = document.getElementById(id);
+  el.textContent = msg;
+  el.className = `alert alert-${tipo} alerta-modal`;
+}
+function ocultarAlerta(id) {
+  document.getElementById(id).className = 'alert alerta-modal d-none';
+}
+
+/** Marca campo como válido o inválido */
+function marcar(id, valido) {
+  const el = document.getElementById(id);
+  el.classList.toggle('is-valid',   valido);
+  el.classList.toggle('is-invalid', !valido);
+}
+
+// ══════════════════════════════════════════════════════
+//  REGISTRO
+// ══════════════════════════════════════════════════════
+
+function registrarUsuario() {
+  // Limpiar estado previo
+  ['reg-nombres','reg-apellido-p','reg-correo','reg-password','reg-confirm']
+    .forEach(id => { marcar(id, false); document.getElementById(id).classList.remove('is-valid','is-invalid'); });
+  ocultarAlerta('reg-alerta');
+
+  const nombres   = document.getElementById('reg-nombres').value.trim();
+  const apellidoP = document.getElementById('reg-apellido-p').value.trim();
+  const correo    = document.getElementById('reg-correo').value.trim().toLowerCase();
+  const password  = document.getElementById('reg-password').value;
+  const confirm   = document.getElementById('reg-confirm').value;
+
+  let valido = true;
+
+  if (!nombres)   { marcar('reg-nombres',   false); valido = false; }
+  else              marcar('reg-nombres',   true);
+
+  if (!apellidoP) { marcar('reg-apellido-p', false); valido = false; }
+  else              marcar('reg-apellido-p', true);
+
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(correo)) {
+    marcar('reg-correo', false); valido = false;
+  } else marcar('reg-correo', true);
+
+  if (password.length < 8) {
+    marcar('reg-password', false);
+    mostrarAlerta('reg-alerta', 'La contraseña debe tener mínimo 8 caracteres.');
+    valido = false;
+  } else marcar('reg-password', true);
+
+  if (password !== confirm) {
+    marcar('reg-confirm', false);
+    mostrarAlerta('reg-alerta', 'Las contraseñas no coinciden.');
+    valido = false;
+  } else if (confirm) marcar('reg-confirm', true);
+
+  if (!valido) return;
+
+  // Verificar correo duplicado
+  const usuarios = getUsuarios();
+  if (usuarios.find(u => u.correo === correo)) {
+    marcar('reg-correo', false);
+    mostrarAlerta('reg-alerta', 'Ya existe una cuenta con ese correo.');
+    return;
+  }
+
+  // Guardar usuario
+  // NOTA: En producción real NUNCA guardes contraseñas en texto plano.
+  // Aquí se usa solo para entorno local/educativo sin servidor.
+  usuarios.push({ nombres, apellidoP, correo, password });
+  setUsuarios(usuarios);
+
+  // Cerrar modal y mostrar mensaje de éxito en login
+  bootstrap.Modal.getInstance(document.getElementById('registerModal'))?.hide();
+  setTimeout(() => {
+    new bootstrap.Modal(document.getElementById('loginModal')).show();
+    mostrarAlerta('login-ok', '¡Cuenta creada! Ya puedes iniciar sesión.', 'success');
+  }, 350);
+
+  // Limpiar campos
+  ['reg-nombres','reg-apellido-p','reg-apellido-m','reg-correo','reg-password','reg-confirm']
+    .forEach(id => {
+      const el = document.getElementById(id);
+      el.value = '';
+      el.classList.remove('is-valid','is-invalid');
+    });
+}
+
+// ══════════════════════════════════════════════════════
+//  LOGIN
+// ══════════════════════════════════════════════════════
+
+function iniciarSesion() {
+  ocultarAlerta('login-alerta');
+  ocultarAlerta('login-ok');
+  ['login-correo','login-password'].forEach(id => {
+    document.getElementById(id).classList.remove('is-valid','is-invalid');
+  });
+
+  const correo   = document.getElementById('login-correo').value.trim().toLowerCase();
+  const password = document.getElementById('login-password').value;
+
+  if (!correo || !password) {
+    mostrarAlerta('login-alerta', 'Completa todos los campos.');
+    return;
+  }
+
+  const usuarios = getUsuarios();
+  const usuario  = usuarios.find(u => u.correo === correo && u.password === password);
+
+  if (!usuario) {
+    marcar('login-correo',   false);
+    marcar('login-password', false);
+    mostrarAlerta('login-alerta', 'Correo o contraseña incorrectos.');
+    return;
+  }
+
+  // Sesión exitosa
+  setSesion({ nombres: usuario.nombres, apellidoP: usuario.apellidoP, correo: usuario.correo });
+
+  // Limpiar campos
+  document.getElementById('login-correo').value   = '';
+  document.getElementById('login-password').value = '';
+
+  // Redirigir al tablero
+  window.location.href = 'kanban.html';
+}
+
+// ══════════════════════════════════════════════════════
+//  CERRAR SESIÓN
+// ══════════════════════════════════════════════════════
+
+function cerrarSesion() {
+  borrarSesion();
+  actualizarUI();
+}
+
+// ══════════════════════════════════════════════════════
+//  ACTUALIZAR UI SEGÚN SESIÓN
+// ══════════════════════════════════════════════════════
+
+function actualizarUI() {
+  const sesion   = getSesion();
+  const navAuth  = document.getElementById('nav-auth');
+  const navUser  = document.getElementById('nav-user');
+  const panel    = document.getElementById('panel-usuario');
+  const saludo   = document.getElementById('panel-saludo');
+  const panelCorreo = document.getElementById('panel-correo');
+  const navNombre   = document.getElementById('nav-nombre');
+
+  if (sesion) {
+    navAuth.style.display  = 'none';
+    navUser.style.display  = 'flex';
+    panel.style.display    = 'block';
+    const nombre = `${sesion.nombres} ${sesion.apellidoP}`;
+    navNombre.textContent  = nombre;
+    saludo.textContent     = `Hola, ${nombre} 👋`;
+    panelCorreo.textContent = sesion.correo;
+  } else {
+    navAuth.style.display  = 'flex';
+    navUser.style.display  = 'none';
+    panel.style.display    = 'none';
+  }
+}
+
+// ══════════════════════════════════════════════════════
+//  LIMPIAR ALERTAS AL CERRAR MODALES
+// ══════════════════════════════════════════════════════
+
+document.getElementById('loginModal').addEventListener('hidden.bs.modal', () => {
+  ocultarAlerta('login-alerta');
+  ocultarAlerta('login-ok');
+  ['login-correo','login-password'].forEach(id => {
+    document.getElementById(id).classList.remove('is-valid','is-invalid');
+  });
+});
+
+document.getElementById('registerModal').addEventListener('hidden.bs.modal', () => {
+  ocultarAlerta('reg-alerta');
+});
+
+// ══════════════════════════════════════════════════════
+//  INICIALIZAR
+// ══════════════════════════════════════════════════════
+actualizarUI();
+</script>
+</body>
+</html>
